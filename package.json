@@ -3,5 +3,9 @@
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5"
   },
-  "scripts": {}
+  "scripts": {
+    "prestart": "bash ./src/commands/gen.sh && node ./src/register.js",
+    "start": "node ./src/app.js"
+  },
+  "type": "module"
 }
