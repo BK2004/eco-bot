@@ -17,7 +17,7 @@ export const APPLICATION_COMMANDS = {};
 Object.keys(commands).forEach(key => {
 	const cmd = commands[key];
 
-	if ('data' in cmd && 'type' in cmd) {
+	if ('data' in cmd && 'type' in cmd && 'exec' in cmd) {
 		if (cmd.type == "APP_CMD")
 			APPLICATION_COMMANDS[key] = cmd;
 	}
