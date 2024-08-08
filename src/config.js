@@ -13,12 +13,21 @@ export const DISCORD_CLIENT = new Discord.Client({
 	],
 });
 export const APPLICATION_COMMANDS = {};
+export const DB_INITS = [];
 
 Object.keys(commands).forEach(key => {
 	const cmd = commands[key];
 
-	if ('data' in cmd && 'type' in cmd && 'exec' in cmd) {
-		if (cmd.type == "APP_CMD")
-			APPLICATION_COMMANDS[key] = cmd;
+	if ('type' in cmd) {
+		if ('data' in cmd && 'exec' in cmd) {
+			// Can be treated as a command
+			if (cmd.type == "APP_CMD")
+				APPLICATION_COMMANDS[cmd.data.name] = cmd;
+		} else if (cmd.type == 'DB_INIT') {
+			// Database file, require an init function
+			if ('init' in cmd) {
+				DB_INITS.push(cmd);
+			}
+		}		
 	}
 });

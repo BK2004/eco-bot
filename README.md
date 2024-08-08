@@ -17,3 +17,11 @@ In order to be registered as a command, each file must have:
 	- APP_CMD: application command
 	</details>
 - exec: Function that executes your command given an InteractionObject
+
+## Database Files
+Under ```src/commands```, create a new JavaScript file for each database you want to create
+
+In order to be registered as a database, the file must have:
+
+- init: Function that initializes your database (see `src/db`)
+- type: Set to `DB_INIT`

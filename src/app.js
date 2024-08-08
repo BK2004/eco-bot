@@ -7,6 +7,6 @@ DISCORD_CLIENT.on(Discord.Events.InteractionCreate, async (interaction) => {
 			await APPLICATION_COMMANDS[interaction.commandName].exec(interaction);
 		}
 	}
-})
+});
 
 DISCORD_CLIENT.login(TOKEN);
