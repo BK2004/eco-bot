@@ -32,15 +32,24 @@ export const initUser = (userId, serverId) => {
 	FLUX_DB.dbConnection.run(`INSERT INTO user (userid, serverid) VALUES (${userId}, ${serverId}) ON CONFLICT DO NOTHING`);
 }
 
-// getBalance
-// 	Get user balance
+// updateBalance
+// 	Update user balance
 // 	Init user if they don't exist
 // Params:
 // 	userId - id of user who's balance is being checked
 // 	serverId - id of server user is getting balance in
-// 	callback - function to run
-export const getBalance = (userId, serverId, callback) => {
-	FLUX_DB.dbConnection.get(`INSERT INTO user (userid, serverid) VALUES (${userId}, ${serverId}) ON CONFLICT DO
-		UPDATE SET flux = flux + (unixepoch(CURRENT_TIMESTAMP) - unixepoch(mtime)) * 5 RETURNING flux;
-	`, callback);
+// 	add - amount of flux to add to balance
+// Returns:
+// 	User's balance after updating
+export const updateBalance = async (userId, serverId, add=0) => {
+	return new Promise((resolve, reject) => {
+		FLUX_DB.dbConnection.get(`INSERT INTO user (userid, serverid) VALUES (${userId}, ${serverId}) ON CONFLICT DO
+		UPDATE SET flux = flux + (unixepoch(CURRENT_TIMESTAMP) - unixepoch(mtime))/12 + ${add} RETURNING flux;`, (err, row) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(row.flux);
+			}
+		});
+	})
 }
